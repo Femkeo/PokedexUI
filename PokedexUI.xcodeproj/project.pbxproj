@@ -15,6 +15,7 @@
 		A2AC593922EB2CE600159C5D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A2AC593722EB2CE600159C5D /* LaunchScreen.storyboard */; };
 		A2AC594422EB2CE600159C5D /* PokedexUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AC594322EB2CE600159C5D /* PokedexUITests.swift */; };
 		A2AC594F22EB2CE600159C5D /* PokedexUIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AC594E22EB2CE600159C5D /* PokedexUIUITests.swift */; };
+		A2AC595F22EB428400159C5D /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AC595E22EB428400159C5D /* Pokemon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		A2AC594A22EB2CE600159C5D /* PokedexUIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokedexUIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2AC594E22EB2CE600159C5D /* PokedexUIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexUIUITests.swift; sourceTree = "<group>"; };
 		A2AC595022EB2CE600159C5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A2AC595E22EB428400159C5D /* Pokemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				A2AC592C22EB2CE400159C5D /* AppDelegate.swift */,
 				A2AC592E22EB2CE400159C5D /* SceneDelegate.swift */,
 				A2AC593022EB2CE400159C5D /* ContentView.swift */,
+				A2AC595E22EB428400159C5D /* Pokemon.swift */,
 				A2AC593222EB2CE600159C5D /* Assets.xcassets */,
 				A2AC593722EB2CE600159C5D /* LaunchScreen.storyboard */,
 				A2AC593A22EB2CE600159C5D /* Info.plist */,
@@ -268,6 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2AC592D22EB2CE400159C5D /* AppDelegate.swift in Sources */,
+				A2AC595F22EB428400159C5D /* Pokemon.swift in Sources */,
 				A2AC592F22EB2CE400159C5D /* SceneDelegate.swift in Sources */,
 				A2AC593122EB2CE400159C5D /* ContentView.swift in Sources */,
 			);
