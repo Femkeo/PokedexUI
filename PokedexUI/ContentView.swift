@@ -7,22 +7,18 @@
 //
 
 import SwiftUI
+import Grid
 
 struct ContentView: View {
     var pokemon: [Pokemon]
     
     var body: some View {
-        ZStack{
-            Color.blue
-            .edgesIgnoringSafeArea(.all)
-            VStack{
-                List(pokemon){ poke in
-                    pokeImageCell(pokemon: poke)
-                    .foregroundColor(Color.gray)
-                    .background(Color.yellow)
-                }.background(Color.red)
-            }.background(Color.clear)
-        }
+        Grid(pokemon){ monster in
+            pokeImageCell(pokemon: monster)
+        }.padding(.horizontal, 8)
+        .gridStyle(
+            AutoColumnsGridStyle(minItemWidth: 100, itemHeight: 100, hSpacing: 8, vSpacing: 8)
+        )
     }
 }
 
@@ -39,12 +35,8 @@ struct pokeImageCell : View{
     let pokemon : Pokemon?
     
     var body: some View {
-        return HStack{
-            Image("Charmander")
+        return Image("Charmander")
                 .resizable()
-                .frame(width: 100, height: 100, alignment: .leading)
-            Text(pokemon?.name ?? "")
-        }
+                .scaledToFit()
     }
-    
 }

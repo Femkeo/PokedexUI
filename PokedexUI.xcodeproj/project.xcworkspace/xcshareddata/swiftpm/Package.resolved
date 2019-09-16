@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Grid",
+        "repositoryURL": "https://github.com/spacenation/grid",
+        "state": {
+          "branch": null,
+          "revision": "47260f15b7b23e93d875892ba1d372ddfbe57022",
+          "version": "0.6.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

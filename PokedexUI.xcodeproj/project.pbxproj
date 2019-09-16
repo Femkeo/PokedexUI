@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,6 +16,7 @@
 		A2AC594422EB2CE600159C5D /* PokedexUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AC594322EB2CE600159C5D /* PokedexUITests.swift */; };
 		A2AC594F22EB2CE600159C5D /* PokedexUIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AC594E22EB2CE600159C5D /* PokedexUIUITests.swift */; };
 		A2AC595F22EB428400159C5D /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AC595E22EB428400159C5D /* Pokemon.swift */; };
+		A2DE7898232FA25F0002F869 /* Grid in Frameworks */ = {isa = PBXBuildFile; productRef = A2DE7897232FA25F0002F869 /* Grid */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2DE7898232FA25F0002F869 /* Grid in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +157,9 @@
 			dependencies = (
 			);
 			name = PokedexUI;
+			packageProductDependencies = (
+				A2DE7897232FA25F0002F869 /* Grid */,
+			);
 			productName = PokedexUI;
 			productReference = A2AC592922EB2CE400159C5D /* PokedexUI.app */;
 			productType = "com.apple.product-type.application";
@@ -227,6 +232,9 @@
 				Base,
 			);
 			mainGroup = A2AC592022EB2CE400159C5D;
+			packageReferences = (
+				A2DE7896232FA25F0002F869 /* XCRemoteSwiftPackageReference "grid" */,
+			);
 			productRefGroup = A2AC592A22EB2CE400159C5D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -590,6 +598,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A2DE7896232FA25F0002F869 /* XCRemoteSwiftPackageReference "grid" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/spacenation/grid";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A2DE7897232FA25F0002F869 /* Grid */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2DE7896232FA25F0002F869 /* XCRemoteSwiftPackageReference "grid" */;
+			productName = Grid;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A2AC592122EB2CE400159C5D /* Project object */;
 }
