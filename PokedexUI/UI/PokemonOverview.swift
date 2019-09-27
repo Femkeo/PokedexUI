@@ -61,20 +61,24 @@ struct pokeImageCell : View{
     
     var body: some View {
         return ZStack(alignment: .topLeading){
-            //TODO: Add a button somewhere that will recognize all the pokemon that are owned
-            if pokemon.isOwned == true{
-                captureHighlight()
+            ZStack(alignment: .center){
+                //TODO: Add a button somewhere that will recognize all the pokemon that are owned
+                if pokemon.isOwned == true{
+                    captureHighlight()
+                }
+                pokemon.spriteImages.map {
+                    Image(uiImage: UIImage(data: $0.front_default) ?? UIImage())
+                        .resizable()
+                        .scaledToFit()
+                }
             }
-            pokemon.spriteImages.map {
-                Image(uiImage: UIImage(data: $0.front_default) ?? UIImage())
-                    .resizable()
-                    .scaledToFit()
-                    .padding(.top)
-                    .padding(.leading, 5)
+            ZStack(alignment: .topLeading){
+                pokemon.id.map {
+                    CustomBlackFont(text:"\($0)")
+                }
             }
-            pokemon.id.map {
-                CustomBlackFont(text:"\($0)").padding(.leading, 10).padding(.top, 5)
-            }
+            
+            
         }
     }
 }
@@ -86,8 +90,6 @@ struct captureHighlight: View {
                 .resizable()
                 .frame(width: 40, height: 40)
                 .opacity(0.2)
-                .padding(.leading, 20)
-                .padding(.top, 10)
         }
     }
 }
