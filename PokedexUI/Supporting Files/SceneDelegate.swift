@@ -12,6 +12,7 @@ import SwiftUI
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let pokemonRetreiver = PokemonRetreiver()
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -22,12 +23,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use a UIHostingController as window root view controller
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: ContentView(pokemon: [Pokemon(name: "", type: [""])]))
-            self.window = window
-            window.makeKeyAndVisible()
+            pokemonRetreiver.fetchPokemonFromApi(limit: "100", offset: "0", completion: { [weak self] in
+                if let retriever = self?.pokemonRetreiver {
+                    window.rootViewController = UIHostingController(rootView: PokemonOverview(pokemonRetriever: retriever))
+                                                     self?.window = window
+                                          window.makeKeyAndVisible()
+                }
+              
+            })
         }
     }
-
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
