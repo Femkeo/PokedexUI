@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use a UIHostingController as window root view controller
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            pokemonRetreiver.fetchPokemonFromApi(limit: "100", offset: "0", completion: { [weak self] in
+            pokemonRetreiver.fetchPokemonFromApi(limit: "802", offset: "0", completion: { [weak self] in
                 if let retriever = self?.pokemonRetreiver {
                     window.rootViewController = UIHostingController(rootView: PokemonOverview(pokemonRetriever: retriever))
                                                      self?.window = window

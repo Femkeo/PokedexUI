@@ -22,7 +22,11 @@ class PokemonRetreiver: ObservableObject{
                     if let data = response.data{
                         let pokeFetchResult = try JSONDecoder().decode(PokemonFetchResult.self, from: data)
                         self?.pokemonList = pokeFetchResult.results
-                        self?.fetchIndividualPokeData()
+                        if let listOfPokemon = self?.pokemonList{
+                            for pokemon in listOfPokemon{
+                                self?.fetchIndividualPokeData(url: pokemon.url)
+                            }
+                        }
                         print("---- added pokemon names and urls")
                         self?.randomOwned()
                         completion()
@@ -38,31 +42,29 @@ class PokemonRetreiver: ObservableObject{
         }
     }
     
-    func fetchIndividualPokeData() {
-        for pokemon in pokemonList{
-            PokApi.fetchSinglePokeData(url: pokemon.url).execute().responseJSON{ [weak self]
-                response in
-                switch response.result{
-                case .success:
-                    if let data = response.data{
-                        do{
-                            let singlePokeFetchResult = try JSONDecoder().decode(SinglePokemonFetchResult.self, from: data)
-                            let pokemonIndex = (singlePokeFetchResult.id - 1)
-                            DispatchQueue.main.async {
-                                self?.pokemonList[pokemonIndex].id = singlePokeFetchResult.id
-                                self?.pokemonList[pokemonIndex].types = singlePokeFetchResult.types
-                                self?.pokemonList[pokemonIndex].moves = singlePokeFetchResult.moves
-                                print("---- Starting download of sprite images")
-                                self?.fetchIndividualSpriteImage(pokeSprites: singlePokeFetchResult.sprites, index: pokemonIndex)
-                                self?.fetchCharacteristics(id: singlePokeFetchResult.id)
-                            }
-                        }catch{
-                            print("---- Could not fetch singlePokeFetchResult")
+    func fetchIndividualPokeData(url: String) {
+        PokApi.fetchSinglePokeData(url: url).execute().responseJSON{ [weak self]
+            response in
+            switch response.result{
+            case .success:
+                if let data = response.data{
+                    do{
+                        let singlePokeFetchResult = try JSONDecoder().decode(SinglePokemonFetchResult.self, from: data)
+                        let pokemonIndex = (singlePokeFetchResult.id - 1)
+                        DispatchQueue.main.async {
+                            self?.pokemonList[pokemonIndex].id = singlePokeFetchResult.id
+                            self?.pokemonList[pokemonIndex].types = singlePokeFetchResult.types
+                            self?.pokemonList[pokemonIndex].moves = singlePokeFetchResult.moves
+                            print("---- Starting download of sprite images")
+                            self?.fetchIndividualSpriteImage(pokeSprites: singlePokeFetchResult.sprites, index: pokemonIndex)
+                            self?.fetchCharacteristics(id: singlePokeFetchResult.id)
                         }
+                    }catch{
+                        print("---- Could not fetch singlePokeFetchResult")
                     }
-                case .failure(let error):
-                    print("---- Error: \(error)")
                 }
+            case .failure(let error):
+                print("---- Error: \(error)")
             }
         }
     }
