@@ -55,7 +55,6 @@ struct ContentView_Previews: PreviewProvider {
 }
 #endif
 
-
 struct pokeImageCell : View{
     let pokemon : Pokemon
     
@@ -66,10 +65,8 @@ struct pokeImageCell : View{
                 if pokemon.isOwned == true{
                     captureHighlight()
                 }
-                pokemon.spriteImages.map {
-                    Image(uiImage: UIImage(data: $0.front_default) ?? UIImage())
-                        .resizable()
-                        .scaledToFit()
+                pokemon.sprites.map{
+                    ImageViewLoader(imageUrl: $0.front_default)
                 }
             }
             ZStack(alignment: .topLeading){
@@ -77,8 +74,6 @@ struct pokeImageCell : View{
                     CustomBlackFont(text:"\($0)")
                 }
             }
-            
-            
         }
     }
 }
@@ -93,3 +88,4 @@ struct captureHighlight: View {
         }
     }
 }
+

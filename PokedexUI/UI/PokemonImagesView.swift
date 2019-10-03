@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct PokemonImagesView: View {
-    let sprites : SpriteImages
+    let sprites : Sprites
     let showFemale : Bool
     
     var body: some View {
@@ -23,32 +23,44 @@ struct PokemonImagesView: View {
     }
 }
 
+struct ImageViewLoader : View {
+    @ObservedObject var imageLoader : ImageDownloader
+    
+    init(imageUrl: String){
+        imageLoader = ImageDownloader(imageURL: imageUrl)
+    }
+    
+    var body : some View {
+        Image(uiImage: (imageLoader.data.count == 0) ? UIImage(named: "Loading")! : UIImage(data: imageLoader.data)!)
+            .resizable()
+            .scaledToFit()
+            .opacity((imageLoader.data.count == 0) ? 0.2 : 1.0)
+    }
+}
+
 struct femaleImages: View{
-    let sprites : SpriteImages
+    let sprites : Sprites
     
     var body: some View {
         HStack(alignment: .top){
-            Image(uiImage: UIImage(data: sprites.front_female ?? Data()) ?? UIImage())
-                .resizable()
-                .scaledToFit()
-            Image(uiImage: UIImage(data: sprites.front_shiny_female ?? Data()) ?? UIImage(data: sprites.front_default) ?? UIImage())
-                .resizable()
-                .scaledToFit()
+            sprites.front_female.map{
+                ImageViewLoader(imageUrl: $0)
+            }
+            sprites.front_shiny_female.map{
+                ImageViewLoader(imageUrl: $0)
+            }
+            
         }
     }
 }
 
 struct defaultImages: View {
-    let sprites : SpriteImages
-    
+    let sprites : Sprites
+
     var body: some View {
-        HStack(alignment: .top){
-            Image(uiImage: UIImage(data: sprites.front_default) ?? UIImage())
-                .resizable()
-                .scaledToFit()
-            Image(uiImage: UIImage(data: sprites.front_shiny) ?? UIImage(data: sprites.front_default) ?? UIImage())
-                .resizable()
-                .scaledToFit()
+        HStack{
+            ImageViewLoader(imageUrl: sprites.front_default)
+            ImageViewLoader(imageUrl: sprites.front_shiny)
         }
     }
 }
@@ -56,11 +68,11 @@ struct defaultImages: View {
 struct PokemonImagesView_Previews: PreviewProvider {
     static var previews: some View {
         PokemonImagesView(
-            sprites: SpriteImages(id: UUID(),
-                                  front_default: UIImage(imageLiteralResourceName: "Bulbasaur").pngData() ?? Data(),
-                                  front_female: nil,
-                                  front_shiny: UIImage(imageLiteralResourceName: "Shiny_Bulbasaur").pngData() ?? Data(),
-                                  front_shiny_female: nil),
+            sprites: Sprites(id: UUID(),
+                             front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png",
+                             front_female: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/female/25.png",
+                             front_shiny: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/25.png",
+                             front_shiny_female: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/female/25.png"),
             showFemale: false)
     }
 }

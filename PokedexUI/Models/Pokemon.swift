@@ -15,7 +15,7 @@ struct Pokemon: Identifiable, Codable{
     var isOwned : Bool? = true
     var characteristic : String?
     var url: String
-    var spriteImages : SpriteImages?
+    var sprites : Sprites?
     var types: [PokemonType]?
     var moves : [PokemonMove]?
 }

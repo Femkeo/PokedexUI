@@ -24,7 +24,7 @@ struct PokemonDetailView: View {
             Button(action: {
                 self.shouldShowFemale = !self.shouldShowFemale
             }){
-                if pokemon.spriteImages?.front_female != nil {
+                if pokemon.sprites?.front_female != nil {
                     PokemonGenderButton(pokemon: pokemon, shouldShowFemale: shouldShowFemale)
                 }
             }
@@ -63,7 +63,7 @@ struct pokeView: View{
     
     var body: some View{
         VStack(){
-            poke.spriteImages.map{
+            poke.sprites.map{
                 PokemonImagesView(sprites: $0, showFemale: female).frame(height: screenFrame.size.height / 4)
             }
             PokemonMetaDataView(pokemon: poke, screenWidth: screenFrame.size.width).frame(alignment: .leading)

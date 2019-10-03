@@ -10,26 +10,24 @@ import Foundation
 import Combine
 
 class ImageDownloader: ObservableObject{
-    var urlSession: URLSession
     
-    init(urlSession: URLSession = .shared) {
-           self.urlSession = urlSession
-       }
+    @Published var data = Data()
     
-    func download(from url: URL, completion: @escaping (Data) -> Void) {  // for swift 4.2 syntax just use ===> mode: UIView.ContentMode
+    init(imageURL: String, urlSession: URLSession = .shared){
+        guard let url = URL(string: imageURL) else { return }
         
-        urlSession.dataTask(with: url) { data, response, error in
-            guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let data = data, error == nil
-                else { return }
-                completion(data)
+        urlSession.dataTask(with: url) { [weak self]
+            data, response, error in
+            if error == nil{
+                if let data = data, data.count > 0{
+                    print("We have found data!")
+                    DispatchQueue.main.async {
+                        self?.data = data
+                    }
+                }
+            }else{
+                print("----- Something went wrong: \(String(describing: error?.localizedDescription))")
+            }
         }.resume()
-    }
-    func download(from link: String, completion: @escaping (Data) -> Void) {  // for swift 4.2 syntax just use ===> mode: UIView.ContentMode
-        guard let url = URL(string: link) else { return }
-        download(from: url) { img in
-            completion(img)
-        }
     }
 }
