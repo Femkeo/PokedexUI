@@ -18,13 +18,11 @@ struct Pokemon: Codable{
     var name: String
     var isOwned : Bool? = true
     var url: String
-    var metaData: PokemonMetaData?
     
-    init(name: String, isOwned: Bool? = false, url: String, metaData: PokemonMetaData){
+    init(name: String, isOwned: Bool? = false, url: String){
         self.name = name
         self.isOwned = isOwned
         self.url = url
-        self.metaData = metaData
     }
         
     func fetchId(url: String) -> String{

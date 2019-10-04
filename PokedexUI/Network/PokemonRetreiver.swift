@@ -23,7 +23,6 @@ class PokemonRetreiver: ObservableObject{
                         let pokeFetchResult = try JSONDecoder().decode(PokemonFetchResult.self, from: data)
                         DispatchQueue.main.async {
                             self?.pokemonList = pokeFetchResult.results
-                            self?.addMetaUrlForEachPokemon()
                             print("---- added pokemon names and urls")
                             self?.randomOwned()
                             completion()
@@ -37,15 +36,6 @@ class PokemonRetreiver: ObservableObject{
                 print("---- Error: \(error)")
                 completion()
             }
-        }
-    }
-    
-    func addMetaUrlForEachPokemon(){
-        for pokemon in pokemonList{
-            var pokemonToUpdate = pokemon
-            pokemonToUpdate.metaData = PokemonMetaData()
-            pokemonToUpdate.metaData = PokemonMetaData(url: pokemon.url)
-            findAndUpdatePokemon(pokemon: pokemonToUpdate)
         }
     }
     

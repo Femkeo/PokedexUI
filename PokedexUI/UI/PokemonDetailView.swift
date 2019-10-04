@@ -16,26 +16,13 @@ struct PokemonDetailView: View {
     var body: some View {
         ZStack{
             GeometryReader{ geo in
-                self.pokemon.metaData.map{
-                    pokeView(metaData: $0, female: self.shouldShowFemale, screenFrame: geo)
-                }
+                pokemonMetaDataLoader(url: self.pokemon.url, screenFrame: geo)
             }
         }
-        .navigationBarTitle(Text((pokemon.name).capitalized), displayMode: .large).font(Font.custom("Quicksand-Regular", size: 36.0))
-        .navigationBarItems(trailing:
-            Button(action: {
-                self.shouldShowFemale = !self.shouldShowFemale
-            }){
-                if pokemon.metaData?.sprites?.front_female != nil {
-                    PokemonGenderButton(pokemon: pokemon, shouldShowFemale: shouldShowFemale)
-                }
-            }
-        )
     }
 }
 
 struct PokemonGenderButton : View {
-    let pokemon : Pokemon
     let shouldShowFemale: Bool
     
     var body : some View {
@@ -48,20 +35,50 @@ struct PokemonGenderButton : View {
     }
 }
 
-//struct PokemonDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        testData.first.map {
-//            PokemonDetailView(pokemon: $0)
-//        }
-//    }
-//}
+struct PokemonDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        pokemonTestData.first.map {
+            PokemonDetailView(pokemon: $0)
+        }
+    }
+}
+
+
+struct pokemonMetaDataLoader : View {
+    @ObservedObject var metaLoader : PokemonMetaDataRetriever
+    @State var shouldShowFemale = false
+    var screenFrame : GeometryProxy
+    
+    init(url: String, screenFrame: GeometryProxy){
+        self.metaLoader = PokemonMetaDataRetriever(url: url)
+        self.screenFrame = screenFrame
+    }
+    
+    var body: some View {
+        ZStack{
+            metaLoader.singlePokemonMetaData.map{
+                pokeView(metaData: $0, female: shouldShowFemale, screenFrame: screenFrame)
+                    .navigationBarTitle(Text(("\($0.name ?? "")").capitalized), displayMode: .large).font(Font.custom("Quicksand-Regular", size: 36.0))
+                    .navigationBarItems(trailing:
+                        Button(action: {
+                            self.shouldShowFemale = !self.shouldShowFemale
+                        }){
+                            if (metaLoader.singlePokemonMetaData ?? PokemonMetaData()).sprites?.front_female != nil {
+                                PokemonGenderButton(shouldShowFemale: shouldShowFemale)
+                            }
+                        }
+                )
+            }
+        }
+    }
+}
 
 
 struct pokeView: View{
     let metaData: PokemonMetaData
     let female : Bool
     let screenFrame : GeometryProxy
-
+    
     var body: some View{
         VStack(){
             metaData.sprites.map{

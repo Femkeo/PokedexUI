@@ -60,11 +60,11 @@ struct PokemonMetaDataView : View{
     }
 }
 
-//struct PokemonMetaView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PokemonMetaDataView(pokemon: testData[0], screenWidth: 375.0)
-//    }
-//}
+struct PokemonMetaView_Previews: PreviewProvider {
+    static var previews: some View {
+        PokemonMetaDataView(pokemonMetaData: pokemonTestMetaData.first ?? PokemonMetaData(), screenWidth: 375.0)
+    }
+}
 
 //struct discriptionView: View {
 //    let pokemon: Pokemon

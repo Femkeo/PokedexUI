@@ -45,15 +45,15 @@ struct PokemonOverview: View {
     }
 }
 
-//#if DEBUG
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let retreiver = PokemonRetreiver()
-//        retreiver.pokemonList = testData
-//        return PokemonOverview(pokemonRetriever: retreiver)
-//    }
-//}
-//#endif
+#if DEBUG
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        let retreiver = PokemonRetreiver()
+        retreiver.pokemonList = pokemonTestData
+        return PokemonOverview(pokemonRetriever: retreiver)
+    }
+}
+#endif
 
 struct pokemonImageMetaLoader : View {
     @ObservedObject var metaLoader : PokemonMetaDataRetriever

@@ -31,7 +31,7 @@ struct ImageViewLoader : View {
     }
     
     var body : some View {
-        Image(uiImage: (imageLoader.data.count == 0) ? UIImage(named: "Loading")! : UIImage(data: imageLoader.data)!)
+        Image(uiImage: (imageLoader.data.count == 0) ? UIImage(named: "WhoIsThisPokemon")! : UIImage(data: imageLoader.data)!)
             .resizable()
             .scaledToFit()
             .opacity((imageLoader.data.count == 0) ? 0.2 : 1.0)
@@ -49,7 +49,6 @@ struct femaleImages: View{
             sprites.front_shiny_female.map{
                 ImageViewLoader(imageUrl: $0)
             }
-            
         }
     }
 }
