@@ -23,13 +23,9 @@ class PokemonRetreiver: ObservableObject{
                         let pokeFetchResult = try JSONDecoder().decode(PokemonFetchResult.self, from: data)
                         DispatchQueue.main.async {
                             self?.pokemonList = pokeFetchResult.results
+                            self?.addMetaUrlForEachPokemon()
                             print("---- added pokemon names and urls")
                             self?.randomOwned()
-                            if let listOfPokemon = self?.pokemonList{
-                                for pokemon in listOfPokemon{
-                                    self?.fetchIndividualPokeData(url: pokemon.url)
-                                }
-                            }
                             completion()
                         }
                     }
@@ -44,31 +40,12 @@ class PokemonRetreiver: ObservableObject{
         }
     }
     
-    func fetchIndividualPokeData(url: String) {
-        PokApi.fetchSinglePokeData(url: url).execute().responseJSON{ [weak self]
-            response in
-            switch response.result{
-            case .success:
-                if let data = response.data{
-                    do{
-                        let singlePokeFetchResult = try JSONDecoder().decode(SinglePokemonFetchResult.self, from: data)
-                        let pokemonIndex = (singlePokeFetchResult.id - 1)
-                        DispatchQueue.main.async {
-                            self?.pokemonList[pokemonIndex].id = singlePokeFetchResult.id
-                            self?.pokemonList[pokemonIndex].types = singlePokeFetchResult.types
-                            self?.pokemonList[pokemonIndex].moves = singlePokeFetchResult.moves
-                            self?.pokemonList[pokemonIndex].sprites = singlePokeFetchResult.sprites
-                            //                            print("---- Starting download of sprite images")
-                            //                            self?.fetchIndividualSpriteImage(pokeSprites: singlePokeFetchResult.sprites, index: pokemonIndex)
-                            //                            self?.fetchCharacteristics(id: singlePokeFetchResult.id)
-                        }
-                    }catch{
-                        print("---- Could not fetch singlePokeFetchResult")
-                    }
-                }
-            case .failure(let error):
-                print("---- Error: \(error)")
-            }
+    func addMetaUrlForEachPokemon(){
+        for pokemon in pokemonList{
+            var pokemonToUpdate = pokemon
+            pokemonToUpdate.metaData = PokemonMetaData()
+            pokemonToUpdate.metaData = PokemonMetaData(url: pokemon.url)
+            findAndUpdatePokemon(pokemon: pokemonToUpdate)
         }
     }
     
@@ -79,6 +56,12 @@ class PokemonRetreiver: ObservableObject{
             let randomIndex = Int(arc4random_uniform(UInt32(pokemonList.count)))
             pokemonList[randomIndex].isOwned = true
             number += 1
+        }
+    }
+    
+    func findAndUpdatePokemon(pokemon: Pokemon){
+        if let index = pokemonList.firstIndex(where: { $0.id == pokemon.id }), index > 0{
+            pokemonList[index] = pokemon
         }
     }
     
@@ -102,7 +85,7 @@ class PokemonRetreiver: ObservableObject{
                                 if id == 1 {
                                     print("what?")
                                 }
-                                self?.pokemonList[id].characteristic = description.description
+//                                self?.pokemonList[id].characteristic = description.description
                             }
                         }
                     }
@@ -115,40 +98,4 @@ class PokemonRetreiver: ObservableObject{
             }
         }
     }
-    
-    
-    //    func fetchIndividualSpriteImage(pokeSprites: Sprites, index: Int){
-    //
-    //        self.pokemonList[index].spriteImages = SpriteImages(id: UUID(), front_default: Data(), front_female: nil, front_shiny: Data(), front_shiny_female: nil)
-    //
-    //        let defaultImageUrl = pokeSprites.front_default
-    //        ImageDownloader().download(from: defaultImageUrl){ imageData in
-    //            DispatchQueue.main.async{
-    //                self.pokemonList[index].spriteImages?.front_default = imageData
-    //            }
-    //        }
-    //
-    //        if let femaleImage = pokeSprites.front_female{
-    //            ImageDownloader().download(from: femaleImage){ imageData in
-    //                DispatchQueue.main.async{
-    //                    self.pokemonList[index].spriteImages?.front_female = imageData
-    //                }
-    //            }
-    //        }
-    //
-    //        let shinyImage = pokeSprites.front_shiny
-    //        ImageDownloader().download(from: shinyImage){ imageData in
-    //            DispatchQueue.main.async{
-    //                self.pokemonList[index].spriteImages?.front_shiny = imageData
-    //            }
-    //        }
-    //
-    //        if let shinyFemaleImage = pokeSprites.front_shiny_female{
-    //            ImageDownloader().download(from: shinyFemaleImage){ imageData in
-    //                DispatchQueue.main.async{
-    //                    self.pokemonList[index].spriteImages?.front_shiny_female = imageData
-    //                }
-    //            }
-    //        }
-    //    }
 }

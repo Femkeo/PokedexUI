@@ -45,15 +45,31 @@ struct PokemonOverview: View {
     }
 }
 
-#if DEBUG
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        let retreiver = PokemonRetreiver()
-        retreiver.pokemonList = testData
-        return PokemonOverview(pokemonRetriever: retreiver)
+//#if DEBUG
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let retreiver = PokemonRetreiver()
+//        retreiver.pokemonList = testData
+//        return PokemonOverview(pokemonRetriever: retreiver)
+//    }
+//}
+//#endif
+
+struct pokemonImageMetaLoader : View {
+    @ObservedObject var metaLoader : PokemonMetaDataRetriever
+    
+    init(url: String){
+        self.metaLoader = PokemonMetaDataRetriever(url: url)
+    }
+    
+    var body: some View {
+        metaLoader.singlePokemonMetaData.map{
+            $0.sprites.map{
+                ImageViewLoader(imageUrl: $0.front_default)
+            }
+        }
     }
 }
-#endif
 
 struct pokeImageCell : View{
     let pokemon : Pokemon
@@ -65,14 +81,10 @@ struct pokeImageCell : View{
                 if pokemon.isOwned == true{
                     captureHighlight()
                 }
-                pokemon.sprites.map{
-                    ImageViewLoader(imageUrl: $0.front_default)
-                }
+                pokemonImageMetaLoader(url: pokemon.url)
             }
             ZStack(alignment: .topLeading){
-                pokemon.id.map {
-                    CustomBlackFont(text:"\($0)")
-                }
+                    CustomBlackFont(text: pokemon.id)
             }
         }
     }

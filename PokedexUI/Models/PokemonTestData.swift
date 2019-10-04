@@ -10,27 +10,35 @@ import SwiftUI
 
 #if DEBUG
 let testData = [
-    Pokemon(
-        id: 1,
-        name: "Bulbasaur",
-        isOwned: true,
-        characteristic: "Loves to eat",
-        url: "https://pokeapi.co/api/v2/pokemon/1/",
-        spriteImages: SpriteImages(id: UUID(), front_default: UIImage(named: "Bulbasaur")!.pngData()!, front_female: nil, front_shiny: UIImage(named: "Shiny_Bulbasaur")!.pngData()!, front_shiny_female: nil),
-        types: [
-                PokemonType(id: UUID(),slot: 1, type: PokemonTypeMeta(id: UUID(), name: "Grass")),
-                PokemonType(id: UUID(), slot: 2, type: PokemonTypeMeta(id: UUID(), name: "Poison"))]
+    Pokemon(name: "Bulbasaur",
+            url: "https://pokeapi.co/api/v2/pokemon/1/",
+            metaData: PokemonMetaData(url: "https://pokeapi.co/api/v2/pokemon/1/",
+                                      id: 1,
+                                      name: "Bulbasaur",
+                                      types: [
+                                        PokemonType(id: UUID(),slot: 1, type: PokemonTypeMeta(id: UUID(), name: "Grass")),
+                                        PokemonType(id: UUID(), slot: 2, type: PokemonTypeMeta(id: UUID(), name: "Poison"))],
+                                      sprites: Sprites(id: UUID(),
+                                                       front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+                                                       front_female: nil,
+                                                       front_shiny: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1.png",
+                                                       front_shiny_female: nil)
+        )
     ),
-    Pokemon(
-        id: 2,
-        name: "Ivysaur",
-        isOwned: false,
-        characteristic: "Loves to drink",
-        url: "https://pokeapi.co/api/v2/pokemon/2/",
-        spriteImages: SpriteImages(id: UUID(), front_default: UIImage(named: "Ivysaur")!.pngData()!, front_female: nil, front_shiny: UIImage(named: "Ivysaur")!.pngData()!, front_shiny_female: nil),
-        types: [
-        PokemonType(id: UUID(),slot: 1, type: PokemonTypeMeta(id: UUID(), name: "Grass")),
-        PokemonType(id: UUID(), slot: 2, type: PokemonTypeMeta(id: UUID(), name: "Poison"))]
-    )
+    Pokemon(name: "Pikachu",
+            url: "https://pokeapi.co/api/v2/pokemon/25/",
+            metaData: PokemonMetaData(url: "https://pokeapi.co/api/v2/pokemon/25/",
+                                      id: 25,
+                                      name: "Pikachu",
+                                      types: [
+                                        PokemonType(id: UUID(),slot: 1, type: PokemonTypeMeta(id: UUID(), name: "Grass")),
+                                        PokemonType(id: UUID(), slot: 2, type: PokemonTypeMeta(id: UUID(), name: "Poison"))],
+                                      sprites: Sprites(id: UUID(),
+                                                       front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png",
+                                                       front_female: nil,
+                                                       front_shiny: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/25.png",
+                                                       front_shiny_female: nil)
+        )
+    ),
 ]
 #endif

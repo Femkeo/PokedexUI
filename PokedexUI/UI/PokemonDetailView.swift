@@ -16,7 +16,9 @@ struct PokemonDetailView: View {
     var body: some View {
         ZStack{
             GeometryReader{ geo in
-                pokeView(poke: self.pokemon, female: self.shouldShowFemale, screenFrame : geo)
+                self.pokemon.metaData.map{
+                    pokeView(metaData: $0, female: self.shouldShowFemale, screenFrame: geo)
+                }
             }
         }
         .navigationBarTitle(Text((pokemon.name).capitalized), displayMode: .large).font(Font.custom("Quicksand-Regular", size: 36.0))
@@ -24,14 +26,13 @@ struct PokemonDetailView: View {
             Button(action: {
                 self.shouldShowFemale = !self.shouldShowFemale
             }){
-                if pokemon.sprites?.front_female != nil {
+                if pokemon.metaData?.sprites?.front_female != nil {
                     PokemonGenderButton(pokemon: pokemon, shouldShowFemale: shouldShowFemale)
                 }
             }
         )
     }
 }
-
 
 struct PokemonGenderButton : View {
     let pokemon : Pokemon
@@ -47,28 +48,28 @@ struct PokemonGenderButton : View {
     }
 }
 
-struct PokemonDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        testData.first.map {
-            PokemonDetailView(pokemon: $0)
-        }
-    }
-}
+//struct PokemonDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        testData.first.map {
+//            PokemonDetailView(pokemon: $0)
+//        }
+//    }
+//}
 
 
 struct pokeView: View{
-    let poke: Pokemon
+    let metaData: PokemonMetaData
     let female : Bool
     let screenFrame : GeometryProxy
-    
+
     var body: some View{
         VStack(){
-            poke.sprites.map{
+            metaData.sprites.map{
                 PokemonImagesView(sprites: $0, showFemale: female).frame(height: screenFrame.size.height / 4)
             }
-            PokemonMetaDataView(pokemon: poke, screenWidth: screenFrame.size.width).frame(alignment: .leading)
+            PokemonMetaDataView(pokemonMetaData: metaData, screenWidth: screenFrame.size.width).frame(alignment: .leading)
             VStack{
-                self.poke.moves.map{
+                self.metaData.moves.map{
                     PokemonMovesView(moves: $0, screenWidth: screenFrame.size.width)
                 }
             }

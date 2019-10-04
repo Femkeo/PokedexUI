@@ -9,29 +9,31 @@
 import SwiftUI
 
 struct PokemonMetaDataView : View{
-    let pokemon : Pokemon
+    let pokemonMetaData : PokemonMetaData
     let screenWidth: CGFloat
     
     var body : some View {
         VStack(alignment: .leading){
-            if pokemon.characteristic != nil{
-                lineView(width: screenWidth)
-                discriptionView(pokemon: pokemon).padding(.leading, 8).padding(.trailing, 8)
-            }
+//            if pokemon.characteristic != nil{
+//                lineView(width: screenWidth)
+//                discriptionView(pokemon: pokemon).padding(.leading, 8).padding(.trailing, 8)
+//            }
             lineView(width: screenWidth)
             HStack(alignment: .top){
                 VStack(alignment: .leading){
                     HStack{
                         RedBoldFont(text: "Name:")
                         Spacer()
-                        CustomFont(text:(pokemon.name).capitalized)
+                        pokemonMetaData.name.map{
+                            CustomFont(text:($0).capitalized)
+                        }
                     }
                     //meh
-                    if pokemon.types != nil{
+                    if pokemonMetaData.types != nil{
                         HStack(alignment: .top){
                             RedBoldFont(text:"Type:")
                             Spacer()
-                            pokemon.types.map {
+                            pokemonMetaData.types.map {
                                 typeRow(types: $0)
                             }
                         }
@@ -58,23 +60,23 @@ struct PokemonMetaDataView : View{
     }
 }
 
-struct PokemonMetaView_Previews: PreviewProvider {
-    static var previews: some View {
-        PokemonMetaDataView(pokemon: testData[0], screenWidth: 375.0)
-    }
-}
+//struct PokemonMetaView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PokemonMetaDataView(pokemon: testData[0], screenWidth: 375.0)
+//    }
+//}
 
-struct discriptionView: View {
-    let pokemon: Pokemon
-    
-    var body: some View{
-        HStack{
-            pokemon.characteristic.map {
-                CustomFont(text: $0)
-            }
-        }
-    }
-}
+//struct discriptionView: View {
+//    let pokemon: Pokemon
+//    
+//    var body: some View{
+//        HStack{
+//            pokemon.characteristic.map {
+//                CustomFont(text: $0)
+//            }
+//        }
+//    }
+//}
 
 struct lineView : View {
     let width : CGFloat

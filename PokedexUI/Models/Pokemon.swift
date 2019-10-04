@@ -9,15 +9,33 @@
 import Foundation
 import SwiftUI
 
-struct Pokemon: Identifiable, Codable{
-    var id : Int?
+struct Pokemon: Codable{
+    var id : String {
+        get{
+            fetchId(url: self.url)
+        }
+    }
     var name: String
     var isOwned : Bool? = true
-    var characteristic : String?
     var url: String
-    var sprites : Sprites?
-    var types: [PokemonType]?
-    var moves : [PokemonMove]?
+    var metaData: PokemonMetaData?
+    
+    init(name: String, isOwned: Bool? = false, url: String, metaData: PokemonMetaData){
+        self.name = name
+        self.isOwned = isOwned
+        self.url = url
+        self.metaData = metaData
+    }
+        
+    func fetchId(url: String) -> String{
+        var result = url.components(separatedBy: "/")
+        result = result.dropLast()
+        if let last = result.last{
+            return last
+        }else{
+            return ""
+        }
+    }
 }
 
 class PokemonFetchResult: Codable{
@@ -27,10 +45,14 @@ class PokemonFetchResult: Codable{
     var results : [Pokemon]
 }
 
-class SinglePokemonFetchResult: Codable{
-    var id : Int
+struct PokemonMetaData: Identifiable, Codable{
+    var url: String?
+    var id : Int?
+    var name: String?
     var types : [PokemonType]?
-    var sprites : Sprites
+    var sprites : Sprites?
     var moves : [PokemonMove]?
 }
+
+
 
